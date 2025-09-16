@@ -195,3 +195,33 @@
     </script>
 </body>
 </html>
+<!-- coin-flip.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Flip</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f0f0; }
+        #result { font-size: 2em; margin: 20px 0; }
+        button { padding: 10px 20px; font-size: 1.2em; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Coin Flip</h1>
+    <p>Click the button to flip the coin!</p>
+    <button id="flipButton">Flip Coin</button>
+    <div id="result"></div>
+    <a href="index.html">Back to Hub</a>
+    <script>
+        const flipButton = document.getElementById('flipButton');
+        const resultDisplay = document.getElementById('result');
+
+        flipButton.addEventListener('click', () => {
+            const outcome = Math.random() < 0.5 ? 'Heads' : 'Tails';
+            resultDisplay.textContent = outcome;
+        });
+    </script>
+</body>
+</html>

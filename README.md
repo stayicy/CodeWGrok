@@ -10,5 +10,5 @@ A simple collection of mini games built with HTML5 and JavaScript. Hosted on Git
 - Mini Game Roulette: Randomly selects one of the other games.
 
 ## How to Play
-Visit the live site: https://stayicy.github.io/mini-games-hub/
+Visit the live site: https://stayicy.github.io/CodeWGrok/
 

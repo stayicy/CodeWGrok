@@ -24,3 +24,87 @@
     </ul>
 </body>
 </html>
+<!-- clicking-target.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicking Target Game</title>
+    <style>
+        body { display: flex; flex-direction: column; align-items: center; background-color: #f0f0f0; }
+        canvas { border: 1px solid #000; background-color: #fff; }
+        #score { font-size: 1.5em; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Clicking Target Game</h1>
+    <p>Click on the moving targets to score points!</p>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <div id="score">Score: 0</div>
+    <a href="index.html">Back to Hub</a>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreDisplay = document.getElementById('score');
+        let score = 0;
+        let targets = [];
+
+        class Target {
+            constructor() {
+                this.x = Math.random() * (canvas.width - 20) + 10;
+                this.y = Math.random() * (canvas.height - 20) + 10;
+                this.radius = 10;
+                this.dx = (Math.random() - 0.5) * 4;
+                this.dy = (Math.random() - 0.5) * 4;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'red';
+                ctx.fill();
+                ctx.closePath();
+            }
+
+            update() {
+                this.x += this.dx;
+                this.y += this.dy;
+                if (this.x - this.radius < 0 || this.x + this.radius > canvas.width) this.dx = -this.dx;
+                if (this.y - this.radius < 0 || this.y + this.radius > canvas.height) this.dy = -this.dy;
+            }
+        }
+
+        function addTarget() {
+            targets.push(new Target());
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            targets.forEach(target => {
+                target.update();
+                target.draw();
+            });
+            requestAnimationFrame(gameLoop);
+        }
+
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const clickY = e.clientY - rect.top;
+            targets = targets.filter(target => {
+                const dist = Math.sqrt((clickX - target.x) ** 2 + (clickY - target.y) ** 2);
+                if (dist <= target.radius) {
+                    score++;
+                    scoreDisplay.textContent = `Score: ${score}`;
+                    return false;
+                }
+                return true;
+            });
+        });
+
+        setInterval(addTarget, 1000);
+        gameLoop();
+    </script>
+</body>
+</html>

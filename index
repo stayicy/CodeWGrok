@@ -225,3 +225,39 @@
     </script>
 </body>
 </html>
+<!-- roulette.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Game Roulette</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f0f0; }
+        #result { font-size: 2em; margin: 20px 0; }
+        button { padding: 10px 20px; font-size: 1.2em; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Mini Game Roulette</h1>
+    <p>Spin the wheel to select a random mini game!</p>
+    <button id="spinButton">Spin</button>
+    <div id="result"></div>
+    <a href="index.html">Back to Hub</a>
+    <script>
+        const spinButton = document.getElementById('spinButton');
+        const resultDisplay = document.getElementById('result');
+        const games = [
+            { name: 'Clicking Target Game', url: 'clicking-target.html' },
+            { name: 'Snake Game', url: 'snake.html' },
+            { name: 'Coin Flip', url: 'coin-flip.html' }
+        ];
+
+        spinButton.addEventListener('click', () => {
+            const randomIndex = Math.floor(Math.random() * games.length);
+            const selectedGame = games[randomIndex];
+            resultDisplay.innerHTML = `You got: <a href="${selectedGame.url}">${selectedGame.name}</a>`;
+        });
+    </script>
+</body>
+</html>

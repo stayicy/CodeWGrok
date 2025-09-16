@@ -3,167 +3,332 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Games Hub</title>
+    <title>Mini Games Hub - All in One</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f0f0; }
-        h1 { color: #333; }
-        ul { list-style-type: none; padding: 0; }
-        li { margin: 20px 0; }
-        a { text-decoration: none; color: #007bff; font-size: 1.2em; }
-        a:hover { text-decoration: underline; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+        }
+        .nav {
+            background-color: #007bff;
+            padding: 10px;
+            text-align: center;
+        }
+        .nav button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .nav button:hover {
+            background-color: #e0e0e0;
+        }
+        .nav button.active {
+            background-color: #ff6b6b;
+            color: white;
+        }
+        .game-container {
+            display: none;
+            padding: 20px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .game-container.active {
+            display: block;
+        }
+        h2 {
+            color: #333;
+        }
+        canvas {
+            border: 2px solid #333;
+            background-color: #fff;
+            margin: 10px 0;
+        }
+        #score {
+            font-size: 1.5em;
+            margin: 10px 0;
+            color: #007bff;
+        }
+        #result {
+            font-size: 2em;
+            margin: 20px 0;
+            color: #333;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .instructions {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
-    <h1>Welcome to Mini Games Hub</h1>
-    <p>Choose a game to play:</p>
-    <ul>
-        <li><a href="clicking-target.html">Clicking Target Game</a></li>
-        <li><a href="snake.html">Snake Game</a></li>
-        <li><a href="coin-flip.html">Coin Flip</a></li>
-        <li><a href="roulette.html">Mini Game Roulette</a></li>
-    </ul>
-</body>
-</html>
-<!-- clicking-target.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clicking Target Game</title>
-    <style>
-        body { display: flex; flex-direction: column; align-items: center; background-color: #f0f0f0; }
-        canvas { border: 1px solid #000; background-color: #fff; }
-        #score { font-size: 1.5em; margin: 10px 0; }
-    </style>
-</head>
-<body>
-    <h1>Clicking Target Game</h1>
-    <p>Click on the moving targets to score points!</p>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
-    <div id="score">Score: 0</div>
-    <a href="index.html">Back to Hub</a>
+    <div class="header">
+        <h1>Welcome to Mini Games Hub - All in One</h1>
+        <p>Click the buttons below to play different games!</p>
+    </div>
+    
+    <div class="nav">
+        <button onclick="showGame('home')" id="home-btn" class="active">Home</button>
+        <button onclick="showGame('target')" id="target-btn">Clicking Target Game</button>
+        <button onclick="showGame('snake')" id="snake-btn">Snake Game</button>
+        <button onclick="showGame('coin')" id="coin-btn">Coin Flip</button>
+        <button onclick="showGame('roulette')" id="roulette-btn">Mini Game Roulette</button>
+    </div>
+
+    <div id="home" class="game-container active">
+        <h2>Mini Games Collection</h2>
+        <div class="instructions">
+            <p><strong>Clicking Target Game:</strong> Click on the moving red targets to score points! New targets appear every second.</p>
+            <p><strong>Snake Game:</strong> Use arrow keys to control the green snake. Eat the red food to grow and score points. Avoid walls and yourself!</p>
+            <p><strong>Coin Flip:</strong> Click the button to simulate a coin flip - Heads or Tails?</p>
+            <p><strong>Mini Game Roulette:</strong> Spin the wheel to randomly select one of the other games to play!</p>
+        </div>
+        <p>This site is hosted on GitHub Pages. All games are built with pure HTML5 and JavaScript - no external dependencies!</p>
+    </div>
+
+    <div id="target" class="game-container">
+        <h2>Clicking Target Game</h2>
+        <div class="instructions">
+            <p>Click on the moving red targets to score points! New targets appear every second.</p>
+        </div>
+        <canvas id="targetCanvas" width="400" height="400"></canvas>
+        <div id="targetScore">Score: 0</div>
+        <button onclick="resetTargetGame()">Reset Game</button>
+    </div>
+
+    <div id="snake" class="game-container">
+        <h2>Snake Game</h2>
+        <div class="instructions">
+            <p>Use arrow keys to move the snake. Eat the red food to grow and score! Avoid hitting walls or yourself.</p>
+        </div>
+        <canvas id="snakeCanvas" width="400" height="400"></canvas>
+        <div id="snakeScore">Score: 0</div>
+        <button onclick="resetSnakeGame()">Reset Game</button>
+    </div>
+
+    <div id="coin" class="game-container">
+        <h2>Coin Flip</h2>
+        <div class="instructions">
+            <p>Click the button to flip a virtual coin and see if it's Heads or Tails!</p>
+        </div>
+        <button id="flipButton">Flip Coin</button>
+        <div id="coinResult"></div>
+        <button onclick="resetCoinFlip()">Reset</button>
+    </div>
+
+    <div id="roulette" class="game-container">
+        <h2>Mini Game Roulette</h2>
+        <div class="instructions">
+            <p>Click "Spin" to randomly select one of the other mini games to play!</p>
+        </div>
+        <button id="spinButton">Spin the Wheel</button>
+        <div id="rouletteResult"></div>
+        <button onclick="resetRoulette()">Reset</button>
+    </div>
+
     <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const scoreDisplay = document.getElementById('score');
-        let score = 0;
-        let targets = [];
+        // Navigation functions
+        function showGame(gameId) {
+            // Hide all containers
+            const containers = document.querySelectorAll('.game-container');
+            containers.forEach(container => container.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.nav button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected container and activate button
+            document.getElementById(gameId).classList.add('active');
+            document.getElementById(gameId + '-btn').classList.add('active');
+            
+            // Initialize or resume specific games if needed
+            if (gameId === 'target') initTargetGame();
+            if (gameId === 'snake') initSnakeGame();
+        }
+
+        // Clicking Target Game
+        let targetCanvas, targetCtx, targetScoreDisplay, targetScore = 0, targetGameActive = false, targetTargets = [];
+        let targetGameInterval, targetAnimationId;
 
         class Target {
             constructor() {
-                this.x = Math.random() * (canvas.width - 20) + 10;
-                this.y = Math.random() * (canvas.height - 20) + 10;
-                this.radius = 10;
+                this.x = Math.random() * (targetCanvas.width - 20) + 10;
+                this.y = Math.random() * (targetCanvas.height - 20) + 10;
+                this.radius = 15;
                 this.dx = (Math.random() - 0.5) * 4;
                 this.dy = (Math.random() - 0.5) * 4;
+                this.life = 3000; // 3 seconds
+                this.startTime = Date.now();
             }
 
             draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'red';
-                ctx.fill();
-                ctx.closePath();
+                targetCtx.beginPath();
+                targetCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                targetCtx.fillStyle = 'red';
+                targetCtx.fill();
+                targetCtx.strokeStyle = 'darkred';
+                targetCtx.lineWidth = 2;
+                targetCtx.stroke();
+                targetCtx.closePath();
             }
 
             update() {
                 this.x += this.dx;
                 this.y += this.dy;
-                if (this.x - this.radius < 0 || this.x + this.radius > canvas.width) this.dx = -this.dx;
-                if (this.y - this.radius < 0 || this.y + this.radius > canvas.height) this.dy = -this.dy;
+                if (this.x - this.radius < 0 || this.x + this.radius > targetCanvas.width) this.dx = -this.dx;
+                if (this.y - this.radius < 0 || this.y + this.radius > targetCanvas.height) this.dy = -this.dy;
+                
+                // Remove old targets
+                if (Date.now() - this.startTime > this.life) {
+                    targetTargets = targetTargets.filter(t => t !== this);
+                }
             }
         }
 
         function addTarget() {
-            targets.push(new Target());
+            if (targetGameActive) {
+                targetTargets.push(new Target());
+            }
         }
 
-        function gameLoop() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            targets.forEach(target => {
+        function targetGameLoop() {
+            if (!targetGameActive) return;
+            
+            targetCtx.clearRect(0, 0, targetCanvas.width, targetCanvas.height);
+            
+            targetTargets.forEach(target => {
                 target.update();
                 target.draw();
             });
-            requestAnimationFrame(gameLoop);
+            
+            targetAnimationId = requestAnimationFrame(targetGameLoop);
         }
 
-        canvas.addEventListener('click', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            const clickY = e.clientY - rect.top;
-            targets = targets.filter(target => {
-                const dist = Math.sqrt((clickX - target.x) ** 2 + (clickY - target.y) ** 2);
-                if (dist <= target.radius) {
-                    score++;
-                    scoreDisplay.textContent = `Score: ${score}`;
-                    return false;
-                }
-                return true;
+        function initTargetGame() {
+            if (!targetGameActive) {
+                targetGameActive = true;
+                targetGameLoop();
+                targetGameInterval = setInterval(addTarget, 1500);
+            }
+        }
+
+        function resetTargetGame() {
+            targetGameActive = false;
+            cancelAnimationFrame(targetAnimationId);
+            clearInterval(targetGameInterval);
+            targetTargets = [];
+            targetScore = 0;
+            targetScoreDisplay.textContent = `Score: ${targetScore}`;
+            targetCtx.clearRect(0, 0, targetCanvas.width, targetCanvas.height);
+        }
+
+        // Setup target game event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            targetCanvas = document.getElementById('targetCanvas');
+            targetCtx = targetCanvas.getContext('2d');
+            targetScoreDisplay = document.getElementById('targetScore');
+
+            targetCanvas.addEventListener('click', (e) => {
+                if (!targetGameActive) return;
+                const rect = targetCanvas.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const clickY = e.clientY - rect.top;
+                
+                targetTargets = targetTargets.filter(target => {
+                    const dist = Math.sqrt((clickX - target.x) ** 2 + (clickY - target.y) ** 2);
+                    if (dist <= target.radius) {
+                        targetScore++;
+                        targetScoreDisplay.textContent = `Score: ${targetScore}`;
+                        // Add hit effect
+                        targetCtx.fillStyle = 'gold';
+                        targetCtx.beginPath();
+                        targetCtx.arc(target.x, target.y, target.radius + 5, 0, Math.PI * 2);
+                        targetCtx.fill();
+                        setTimeout(() => targetCtx.clearRect(target.x - target.radius - 5, target.y - target.radius - 5, target.radius * 2 + 10, target.radius * 2 + 10), 100);
+                        return false;
+                    }
+                    return true;
+                });
             });
         });
 
-        setInterval(addTarget, 1000);
-        gameLoop();
-    </script>
-</body>
-</html>
-<!-- snake.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake Game</title>
-    <style>
-        body { display: flex; flex-direction: column; align-items: center; background-color: #f0f0f0; }
-        canvas { border: 1px solid #000; background-color: #fff; }
-        #score { font-size: 1.5em; margin: 10px 0; }
-    </style>
-</head>
-<body>
-    <h1>Snake Game</h1>
-    <p>Use arrow keys to move the snake. Eat the food!</p>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
-    <div id="score">Score: 0</div>
-    <a href="index.html">Back to Hub</a>
-    <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const scoreDisplay = document.getElementById('score');
+        // Snake Game
+        let snakeCanvas, snakeCtx, snakeScoreDisplay, snakeScore = 0, snakeGameActive = false;
+        let snake, dx, dy, food, snakeGameInterval, snakeAnimationId;
         const blockSize = 20;
-        let snake = [{ x: 200, y: 200 }];
-        let dx = blockSize;
-        let dy = 0;
-        let food = { x: Math.floor(Math.random() * (canvas.width / blockSize)) * blockSize, y: Math.floor(Math.random() * (canvas.height / blockSize)) * blockSize };
-        let score = 0;
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowUp' && dy === 0) { dx = 0; dy = -blockSize; }
-            if (e.key === 'ArrowDown' && dy === 0) { dx = 0; dy = blockSize; }
-            if (e.key === 'ArrowLeft' && dx === 0) { dx = -blockSize; dy = 0; }
-            if (e.key === 'ArrowRight' && dx === 0) { dx = blockSize; dy = 0; }
-        });
+        function initSnake() {
+            snake = [{ x: 200, y: 200 }];
+            dx = blockSize;
+            dy = 0;
+            food = { 
+                x: Math.floor(Math.random() * (snakeCanvas.width / blockSize)) * blockSize, 
+                y: Math.floor(Math.random() * (snakeCanvas.height / blockSize)) * blockSize 
+            };
+            snakeScore = 0;
+            snakeScoreDisplay.textContent = `Score: ${snakeScore}`;
+        }
 
         function drawSnake() {
-            snake.forEach(part => {
-                ctx.fillStyle = 'green';
-                ctx.fillRect(part.x, part.y, blockSize, blockSize);
+            snake.forEach((part, index) => {
+                snakeCtx.fillStyle = index === 0 ? 'darkgreen' : 'green';
+                snakeCtx.fillRect(part.x, part.y, blockSize, blockSize);
+                snakeCtx.strokeStyle = '#228B22';
+                snakeCtx.strokeRect(part.x, part.y, blockSize, blockSize);
             });
         }
 
         function drawFood() {
-            ctx.fillStyle = 'red';
-            ctx.fillRect(food.x, food.y, blockSize, blockSize);
+            snakeCtx.fillStyle = 'red';
+            snakeCtx.fillRect(food.x, food.y, blockSize, blockSize);
+            snakeCtx.strokeStyle = 'darkred';
+            snakeCtx.strokeRect(food.x, food.y, blockSize, blockSize);
         }
 
         function moveSnake() {
             const head = { x: snake[0].x + dx, y: snake[0].y + dy };
             snake.unshift(head);
+            
             if (head.x === food.x && head.y === food.y) {
-                score++;
-                scoreDisplay.textContent = `Score: ${score}`;
-                food = { x: Math.floor(Math.random() * (canvas.width / blockSize)) * blockSize, y: Math.floor(Math.random() * (canvas.height / blockSize)) * blockSize };
+                snakeScore++;
+                snakeScoreDisplay.textContent = `Score: ${snakeScore}`;
+                food = { 
+                    x: Math.floor(Math.random() * (snakeCanvas.width / blockSize)) * blockSize, 
+                    y: Math.floor(Math.random() * (snakeCanvas.height / blockSize)) * blockSize 
+                };
+                // Ensure food doesn't spawn on snake
+                while (snake.some(part => part.x === food.x && part.y === food.y)) {
+                    food = { 
+                        x: Math.floor(Math.random() * (snakeCanvas.width / blockSize)) * blockSize, 
+                        y: Math.floor(Math.random() * (snakeCanvas.height / blockSize)) * blockSize 
+                    };
+                }
             } else {
                 snake.pop();
             }
@@ -171,93 +336,125 @@
 
         function checkCollision() {
             const head = snake[0];
-            if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) return true;
+            if (head.x < 0 || head.x >= snakeCanvas.width || head.y < 0 || head.y >= snakeCanvas.height) return true;
             for (let i = 1; i < snake.length; i++) {
                 if (head.x === snake[i].x && head.y === snake[i].y) return true;
             }
             return false;
         }
 
-        function gameLoop() {
+        function snakeGameLoop() {
+            if (!snakeGameActive) return;
+            
             if (checkCollision()) {
-                alert('Game Over! Score: ' + score);
-                location.reload();
+                alert(`Game Over! Final Score: ${snakeScore}`);
+                resetSnakeGame();
                 return;
             }
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            snakeCtx.clearRect(0, 0, snakeCanvas.width, snakeCanvas.height);
             drawFood();
             moveSnake();
             drawSnake();
-            setTimeout(gameLoop, 100);
+            
+            snakeAnimationId = setTimeout(snakeGameLoop, 150);
         }
 
-        gameLoop();
-    </script>
-</body>
-</html>
-<!-- coin-flip.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coin Flip</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f0f0; }
-        #result { font-size: 2em; margin: 20px 0; }
-        button { padding: 10px 20px; font-size: 1.2em; cursor: pointer; }
-    </style>
-</head>
-<body>
-    <h1>Coin Flip</h1>
-    <p>Click the button to flip the coin!</p>
-    <button id="flipButton">Flip Coin</button>
-    <div id="result"></div>
-    <a href="index.html">Back to Hub</a>
-    <script>
+        function initSnakeGame() {
+            if (!snakeGameActive) {
+                snakeGameActive = true;
+                initSnake();
+                snakeGameLoop();
+            }
+        }
+
+        function resetSnakeGame() {
+            snakeGameActive = false;
+            clearTimeout(snakeAnimationId);
+            snakeCtx.clearRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+            initSnake();
+        }
+
+        // Setup snake game event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            snakeCanvas = document.getElementById('snakeCanvas');
+            snakeCtx = snakeCanvas.getContext('2d');
+            snakeScoreDisplay = document.getElementById('snakeScore');
+
+            document.addEventListener('keydown', (e) => {
+                if (!snakeGameActive) return;
+                switch(e.key) {
+                    case 'ArrowUp':
+                        if (dy !== blockSize) { dx = 0; dy = -blockSize; }
+                        break;
+                    case 'ArrowDown':
+                        if (dy !== -blockSize) { dx = 0; dy = blockSize; }
+                        break;
+                    case 'ArrowLeft':
+                        if (dx !== blockSize) { dx = -blockSize; dy = 0; }
+                        break;
+                    case 'ArrowRight':
+                        if (dx !== -blockSize) { dx = blockSize; dy = 0; }
+                        break;
+                }
+            });
+        });
+
+        // Coin Flip Game
         const flipButton = document.getElementById('flipButton');
-        const resultDisplay = document.getElementById('result');
+        const coinResultDisplay = document.getElementById('coinResult');
 
         flipButton.addEventListener('click', () => {
-            const outcome = Math.random() < 0.5 ? 'Heads' : 'Tails';
-            resultDisplay.textContent = outcome;
+            const outcomes = ['Heads', 'Tails'];
+            const randomOutcome = outcomes[Math.floor(Math.random() * outcomes.length)];
+            coinResultDisplay.innerHTML = `<strong>${randomOutcome}!</strong>`;
+            coinResultDisplay.style.color = randomOutcome === 'Heads' ? '#ffd700' : '#c0c0c0';
+            
+            // Simple animation
+            coinResultDisplay.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                coinResultDisplay.style.transform = 'scale(1)';
+            }, 200);
         });
-    </script>
-</body>
-</html>
-<!-- roulette.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Game Roulette</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f0f0; }
-        #result { font-size: 2em; margin: 20px 0; }
-        button { padding: 10px 20px; font-size: 1.2em; cursor: pointer; }
-    </style>
-</head>
-<body>
-    <h1>Mini Game Roulette</h1>
-    <p>Spin the wheel to select a random mini game!</p>
-    <button id="spinButton">Spin</button>
-    <div id="result"></div>
-    <a href="index.html">Back to Hub</a>
-    <script>
+
+        function resetCoinFlip() {
+            coinResultDisplay.textContent = '';
+            coinResultDisplay.style.color = '#333';
+        }
+
+        // Roulette Game
         const spinButton = document.getElementById('spinButton');
-        const resultDisplay = document.getElementById('result');
+        const rouletteResultDisplay = document.getElementById('rouletteResult');
         const games = [
-            { name: 'Clicking Target Game', url: 'clicking-target.html' },
-            { name: 'Snake Game', url: 'snake.html' },
-            { name: 'Coin Flip', url: 'coin-flip.html' }
+            { name: 'Clicking Target Game', id: 'target', color: '#ff6b6b' },
+            { name: 'Snake Game', id: 'snake', color: '#4ecdc4' },
+            { name: 'Coin Flip', id: 'coin', color: '#ffd93d' }
         ];
 
         spinButton.addEventListener('click', () => {
             const randomIndex = Math.floor(Math.random() * games.length);
             const selectedGame = games[randomIndex];
-            resultDisplay.innerHTML = `You got: <a href="${selectedGame.url}">${selectedGame.name}</a>`;
+            
+            rouletteResultDisplay.innerHTML = `
+                <strong style="color: ${selectedGame.color}">🎰 You landed on: ${selectedGame.name}!</strong><br>
+                <button onclick="showGame('${selectedGame.id}')" style="margin-top: 10px; background-color: ${selectedGame.color}">Play ${selectedGame.name}</button>
+            `;
+            
+            // Spinning animation
+            spinButton.style.transform = 'rotate(360deg)';
+            spinButton.style.transition = 'transform 1s';
+            setTimeout(() => {
+                spinButton.style.transform = 'rotate(0deg)';
+                spinButton.style.transition = 'none';
+            }, 1000);
         });
+
+        function resetRoulette() {
+            rouletteResultDisplay.innerHTML = '';
+        }
+
+        // Initialize home view
+        showGame('home');
     </script>
 </body>
 </html>
